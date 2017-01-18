@@ -63,6 +63,9 @@ then
     exit 1; 
 fi
 
+echo "Get Data"
+wget https://raw.githubusercontent.com/OpenKitten/Mongo-Assets/master/zips.json
+
 echo "Prepare Data"
 mongoimport --host localhost --port 27017 --db=mongokitten-unittest --collection=zips --drop zips.json 
 
