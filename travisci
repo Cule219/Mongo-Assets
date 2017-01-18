@@ -64,7 +64,7 @@ then
 fi
 
 echo "Prepare Data"
-mongoimport --host localhost --port 27017 --db=mongokitten-unittest --collection=zips --drop Tools/zips.json 
+mongoimport --host localhost --port 27017 --db=mongokitten-unittest --collection=zips --drop zips.json 
 
 echo "🔎 Testing";
 
