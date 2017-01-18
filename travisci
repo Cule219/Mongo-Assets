@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-SWIFT_VERSION=3.0.1
+export SWIFT_VERSION=3.0.1
 
 echo "Swift $SWIFT_VERSION Continuous Integration";
 
