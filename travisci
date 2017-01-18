@@ -46,9 +46,6 @@ else
     eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
 fi
 
-echo "Prepare Data"
-mongoimport --host localhost --port 27017 --db=mongokitten-unittest --collection=zips --drop Tools/zips.json 
-
 echo "📅 Version: `swift --version`";
 echo "🚀 Building";
 swift build
@@ -65,6 +62,9 @@ then
     echo "❌  Build for release failed";
     exit 1; 
 fi
+
+echo "Prepare Data"
+mongoimport --host localhost --port 27017 --db=mongokitten-unittest --collection=zips --drop Tools/zips.json 
 
 echo "🔎 Testing";
 
