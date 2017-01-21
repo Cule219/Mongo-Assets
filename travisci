@@ -30,6 +30,14 @@ then
     brew update
     brew install mongodb
     brew services start mongodb
+    mkdir mongodb3_0
+    cd mongodb3_0
+    mkdir .mongodb_30
+    wget http://downloads.mongodb.org/osx/mongodb-osx-ssl-x86_64-3.0.14.tgz
+    tar zxf mongodb-osx-ssl-x86_64-3.0.14.tgz
+    cd ./mongodb-osx-x86_64-3.0.14/bin/
+    mongod --dbpath ../../.mongodb_30 --port 27018 --fork --syslog
+    cd ../../..
 else
     echo "📚 Installing Mongo tools"
     sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
@@ -68,6 +76,7 @@ wget https://raw.githubusercontent.com/OpenKitten/Mongo-Assets/master/zips.json
 
 echo "Prepare Data"
 mongoimport --host localhost --port 27017 --db=mongokitten-unittest --collection=zips --drop zips.json 
+mongoimport --host localhost --port 27018 --db=mongokitten-unittest --collection=zips --drop zips.json 
 
 echo "🔎 Testing";
 
