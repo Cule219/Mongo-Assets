@@ -91,7 +91,7 @@ then
     exit 1; 
 fi
 export mongokittentest="mongodb://localhost:27018/mongokitten-unittest?appname=xctest"
-/opt/swift/swift-3.0/usr/bin/swift test
+swift test
 if [[ $? != 0 ]]; 
 then 
     echo "❌ Tests failed";
