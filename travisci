@@ -45,10 +45,13 @@ else
     sudo apt-get update
     sudo apt-get install mongodb-org-shell mongodb-org-tools
     echo "Create data directory"
-    mkdir -p Tools/storage/mongodb/dbdockerssl
+    mkdir -p Tools/storage/mongodb/dbdockerlatest
+    mkdir -p Tools/storage/mongodb/dbdocker30
     echo "Create Docker Container with MongoDB"
     docker pull mongo:latest
-    docker run -p 27017:27017 -v $PWD/Tools/storage/mongodb/dbdockerssl:/data/db --name mongokittenplain -d mongo mongod
+    docker pull mongo:3.0
+    docker run -p 27017:27017 -v $PWD/Tools/storage/mongodb/dbdockerlatest:/data/db --name mongokittenplain -d mongo mongod
+    docker run -p 27018:27017 -v $PWD/Tools/storage/mongodb/dbdocker30:/data/db --name mongokitten30 -d mongo:3.0 mongod
 
     echo "🐦 Installing Swift";
     eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
@@ -75,22 +78,24 @@ echo "Get Data"
 wget https://raw.githubusercontent.com/OpenKitten/Mongo-Assets/master/zips.json
 
 echo "Prepare Data"
-mongoimport --host localhost --port 27017 --db=mongokitten-unittest --collection=zips --drop zips.json 
-
-if [[ $OS == "macos" ]];
-then
-    mongoimport --host localhost --port 27018 --db=mongokitten-unittest --collection=zips --drop zips.json 
-fi
+mongoimport --host localhost --port 27017 --db=mongokitten-unittest --collection=zips --drop zips.json
+mongoimport --host localhost --port 27018 --db=mongokitten-unittest --collection=zips --drop zips.json
 
 echo "🔎 Testing";
 
+echo "Test with MongoDB Latest"
 swift test
-if [[ $? != 0 ]]; 
+
+if [[ $? != 0 ]];
 then 
     echo "❌ Tests failed";
     exit 1; 
 fi
+
+echo "Test with MongDB 3.0"
+
 export mongokittentest="mongodb://localhost:27018/mongokitten-unittest?appname=xctest"
+
 swift test
 if [[ $? != 0 ]]; 
 then 
