@@ -100,7 +100,12 @@ echo "Test with MongDB 3.0"
 
 export mongokittentest="mongodb://localhost:27018/mongokitten-unittest?appname=xctest"
 
-swift test
+if [[ $OS == "macos" ]];
+then
+    swift test
+else
+    swift test -Xswiftc -DOPENSSL_TOO_OLD
+fi
 if [[ $? != 0 ]]; 
 then 
     echo "❌ Tests failed";
