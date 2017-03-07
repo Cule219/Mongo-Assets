@@ -83,7 +83,12 @@ mongoimport --host localhost --port 27018 --db=mongokitten-unittest --collection
 echo "🔎 Testing";
 
 echo "Test with MongoDB Latest"
-swift test
+if [[ $OS == "macos" ]];
+then
+    swift test
+else
+    swift test -Xswiftc -DOPENSSL_TOO_OLD
+fi
 
 if [[ $? != 0 ]];
 then 
